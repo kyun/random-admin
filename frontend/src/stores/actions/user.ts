@@ -1,7 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
 
-const login = createAction('LOGIN')();
-
 const initialState = {
   isLogin: false,
 };
@@ -20,6 +18,12 @@ export default handleActions(
         status: 'fullfiled',
       };
     },
+    LOGOUT: (state, action) => {
+      return {
+        ...state,
+        isLogin: false,
+      }
+    }
   },
   initialState,
 );

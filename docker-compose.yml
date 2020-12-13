@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:8.0.22
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+
+      
+    
+# docker[컨테이너], docker-compose[docker, 컨테이너를 여러개 한번에 다룰 수 있는 도구]
+# docker-compose up --build -d, docker-compose start

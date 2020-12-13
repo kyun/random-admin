@@ -5,6 +5,9 @@ import LoginPage from './pages/login';
 import { Layout } from 'antd';
 import { useSelector } from 'react-redux';
 import MainPage from 'pages/main';
+import DefaultLayout from 'pages/Layout';
+import DashboardPage from 'pages/dashboard';
+import UserPage from 'pages/user';
 
 const { Header, Sider } = Layout;
 
@@ -19,19 +22,33 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <PrivateRoute path="/" exact component={MainPage} />
-        <Route path="/login" exact>
-          <LoginPage />
-        </Route>
+        <Route path="/" exact component={()=>(<Redirect to="/login" />)} />
+        <PrivateRoute path="/d" render={({ match: { url }}: any) => (
+          <DefaultLayout>
+            <Route path={`${url}/`} exact component={DashboardPage} />
+            <Route path={`${url}/a`} exact component={UserPage} />
+            <Route path={`${url}/b`} exact component={()=><h1>b</h1>} />
+          </DefaultLayout>
+        )}/>
+        <Route path="/login" exact component={LoginPage} />
+
       </Switch>
     </BrowserRouter>
   );
 }
 
-function PrivateRoute({ component: Component, ...rest }: any) {
+function PrivateRoute({ component: Component, render, ...rest}: any) {
   const { isLogin } = useSelector(({ user: { isLogin } }: any) => ({ isLogin }));
-
-  return <Route {...rest} render={props => (isLogin ? <Component {...props} /> : <Redirect to="/login" />)} />;
+  if(!isLogin){
+    return <Redirect to="/login" />
+  }
+  return <Route {...rest} render={render} />
 }
+
+// function PrivateRoute({ component: Component, ...rest }: any) {
+//   const { isLogin } = useSelector(({ user: { isLogin } }: any) => ({ isLogin }));
+//   console.log(rest);
+//   return <Route {...rest} render={props => (isLogin ? <Component {...props} /> : <Redirect to="/login" />)} />;
+// }
 
 export default App;

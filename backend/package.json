@@ -1,17 +1,19 @@
 {
-  "name": "random-admin-backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",
+  "dependencies": {
+    "mysql2": "^2.2.5",
+    "serverless-bundle": "^4.1.0",
+    "serverless-offline": "^6.8.0"
+  },
+  "devDependencies": {
+    "@types/mysql2": "github:types/mysql2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@types/aws-lambda": "^8.10.64",
-    "@types/jsonwebtoken": "^8.5.0",
-    "jsonwebtoken": "^8.5.1",
-    "serverless-bundle": "^4.1.0"
-  }
+  "license": "ISC"
 }

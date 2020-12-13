@@ -26,7 +26,7 @@ function LoginPage() {
 
   function handleClick() {
     console.log('ggg');
-    router.push('/');
+    router.push('/d');
   }
 
   return (

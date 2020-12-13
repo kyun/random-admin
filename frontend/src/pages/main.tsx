@@ -1,22 +1,30 @@
 import React from 'react';
-import './pages.scss';
-import { EnvironmentOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+// import './pages.scss';
+import { UsergroupAddOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import { Button, Avatar } from 'antd';
+
+
+const Page = styled.div`
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #f0f0f0;
+`
+
 function MainPage() {
+  const dispatch = useDispatch();
   const [isOpen, setToggle] = React.useState(false);
+
+  function logout(){
+    dispatch({ type: 'LOGOUT' });
+  }
   return (
-    <div className="Page">
-      <nav className={(isOpen && '--wide') || ''}>
-        {' '}
-        <button onClick={() => setToggle(prev => !prev)}>toggle</button>
-        <div style={{ fontSize: '24px', color: '#ff00f0' }}>
-          <EnvironmentOutlined />
-        </div>
-      </nav>
-      <div className="content">
-        <header>123</header>
-        <main>321</main>
-      </div>
-    </div>
+    <>
+    <h1>Title</h1>
+      <Page />
+    </>
   );
 }
 
