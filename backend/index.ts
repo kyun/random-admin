@@ -39,7 +39,7 @@ export async function hi(event:any){
       rows: 'hi',
     })
   }
-   
+  // for TEST
   // connection.end();
   // await dbClient.connect();
   // const result = await dbClient.query(` SELECT 2*4 니AS number `)
