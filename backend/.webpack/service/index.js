@@ -269,10 +269,9 @@ function makeid(length) {
 
 function hi(event) {
   return __awaiter(this, void 0, void 0, function () {
-    var connection, _a, rows, fields;
-
-    return __generator(this, function (_b) {
-      switch (_b.label) {
+    var connection;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
         case 0:
           return [4
           /*yield*/
@@ -284,13 +283,9 @@ function hi(event) {
           })];
 
         case 1:
-          connection = _b.sent();
-          return [4
-          /*yield*/
-          , connection.execute("INSERT INTO user (user_id, id, password) VALUES ('" + makeid(6) + "', '" + makeid(6) + "', '" + makeid(6) + "')")];
-
-        case 2:
-          _a = _b.sent(), rows = _a[0], fields = _a[1]; //await connection.execute(`SELECT * FROM user`);
+          connection = _a.sent(); //const [rows, fields] = 
+          //await connection.execute(`INSERT INTO user (user_id, id, password) VALUES ('${makeid(6)}', '${makeid(6)}', '${makeid(6)}')`);
+          //await connection.execute(`SELECT * FROM user`);
           // connection.connect();
           // const res = await connection.query(
           //   'SELECT * FROM `user`',
@@ -305,7 +300,7 @@ function hi(event) {
           , {
             statusCode: 200,
             body: JSON.stringify({
-              rows: rows
+              rows: 'hi'
             })
           } // connection.end();
           // await dbClient.connect();

@@ -33,6 +33,17 @@ provider:
   #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
 
 functions:
+  auth:
+    handler: authorizer/index.authorizer
+  generateToken:
+    handler: authorizer/generateToken.generateToken
+    events:
+      - http:
+          path: generateToken
+          method: post
+          cors:
+            origin: http://localhost:3000
+            allowCredentials: true
   hello:
     handler: handler.hello
     events:
@@ -45,9 +56,16 @@ functions:
       - http:
           path: /
           method: post
+          authorizer: auth
   signup:
     handler: user/signup.signup
     events:
       - http:
           path: /signup
+          method: post
+  login:
+    handler: user/login.login
+    events:
+      - http:
+          path: /login
           method: post

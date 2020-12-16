@@ -4,11 +4,13 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5",
     "serverless-bundle": "^4.1.0",
     "serverless-offline": "^6.8.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/mysql2": "github:types/mysql2"
   },
   "scripts": {

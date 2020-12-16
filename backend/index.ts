@@ -20,8 +20,8 @@ export async function hi(event:any){
     database : 'random-admin'
   });
    
-  const [rows, fields] = 
-  await connection.execute(`INSERT INTO user (user_id, id, password) VALUES ('${makeid(6)}', '${makeid(6)}', '${makeid(6)}')`);
+  //const [rows, fields] = 
+  //await connection.execute(`INSERT INTO user (user_id, id, password) VALUES ('${makeid(6)}', '${makeid(6)}', '${makeid(6)}')`);
 
   //await connection.execute(`SELECT * FROM user`);
 
@@ -36,7 +36,7 @@ export async function hi(event:any){
   return {
     statusCode: 200,
     body: JSON.stringify({
-      rows,
+      rows: 'hi',
     })
   }
    

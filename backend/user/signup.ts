@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import mysql from 'mysql2/promise';
 import {createConnection, QueryError, RowDataPacket} from 'mysql2';
+import { encrypt } from './password';
 
 const SALT = 'SALT';
 const ITERATIONS = 1109;
@@ -16,7 +17,7 @@ export const signup = async (event: any) => {
     if(!id || !password || !role){
       throw new Error('not Found');
     }
-    const key = crypto.pbkdf2Sync(password, SALT, ITERATIONS, 64, 'sha512').toString('base64');
+    const key = await encrypt(password);
     const now = Date.now();
     const [rows] = await connection.execute(`
       INSERT INTO user (user_id, id, password, role, status, created_at, updated_at)
