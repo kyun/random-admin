@@ -26,9 +26,7 @@ function generateAuthResponse(principalId: string, effect: any, methodArn: any) 
 export async function authorizer(event: any, context: any, callback: any){
   try{
     const access_token = event.authorizationToken.replace("Bearer ", "");
-    console.log("GET_ACCESSTOKEN", access_token);
     const methodArn = event.methodArn;
-    console.log(!access_token || !methodArn)
     if(!access_token || !methodArn){
       return {
         statusCode: 401,
@@ -40,11 +38,8 @@ export async function authorizer(event: any, context: any, callback: any){
         })
       }
     }
-    console.log('secret')
     // const secret = Buffer.from("SECRET", "base64");
-    console.log('decode')
     const decoded: any = jwt.verify(access_token, "SECRET");
-    console.log(decoded);
     if (decoded && decoded.id) {
       return callback(null, generateAuthResponse(decoded.id, "Allow", methodArn));
     } else {

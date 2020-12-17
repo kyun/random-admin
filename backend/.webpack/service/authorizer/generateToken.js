@@ -255,7 +255,7 @@ exports.generateToken = void 0;
 
 var jsonwebtoken_1 = __importDefault(__webpack_require__(/*! jsonwebtoken */ "../../jsonwebtoken/index.js"));
 
-function generateToken(event) {
+function generateToken(id) {
   return __awaiter(this, void 0, void 0, function () {
     function signToken(user, subject, expiresIn) {
       if (subject === void 0) {
@@ -281,7 +281,7 @@ function generateToken(event) {
       });
     }
 
-    var secret, body, token, refresh_token, decoded, e_1;
+    var secret, token, refresh_token, decoded, e_1;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -291,11 +291,10 @@ function generateToken(event) {
         case 1:
           _a.trys.push([1, 4,, 5]);
 
-          body = JSON.parse(event.body);
           return [4
           /*yield*/
           , signToken({
-            id: body.id
+            id: id
           })];
 
         case 2:
@@ -303,7 +302,7 @@ function generateToken(event) {
           return [4
           /*yield*/
           , signToken({
-            id: body.id
+            id: id
           }, "refresh_token", 60 * 60 * 24 * 7)];
 
         case 3:
@@ -312,19 +311,10 @@ function generateToken(event) {
           return [2
           /*return*/
           , {
-            statusCode: 200,
-            headers: {
-              "Access-Control-Allow-Origin": "http://localhost:3000",
-              "Access-Control-Allow-Credentials": true,
-              "Set-Cookie": "refresh_token=" + refresh_token + ";Max-Age=" + 60 * 60 * 24 * 7 + ";path=/;HttpOnly;"
-            },
-            body: JSON.stringify({
-              message: 'success',
-              token: token,
-              refresh_token: refresh_token,
-              decoded: decoded,
-              body: body
-            })
+            message: 'success',
+            token: token,
+            refresh_token: refresh_token,
+            decoded: decoded
           }];
 
         case 4:

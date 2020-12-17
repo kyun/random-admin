@@ -302,7 +302,8 @@ function hi(event) {
             body: JSON.stringify({
               rows: 'hi'
             })
-          } // connection.end();
+          } // for TEST
+          // connection.end();
           // await dbClient.connect();
           // const result = await dbClient.query(` SELECT 2*4 니AS number `)
           ];

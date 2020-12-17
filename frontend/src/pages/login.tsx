@@ -12,45 +12,71 @@ import {
 import { blue } from '@ant-design/colors';
 
 import { useInterval } from 'hooks/useInterval';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 
 function LoginPage() {
   const dispatch = useDispatch();
+  const { isLogin } = useSelector(({ user: { isLogin } }: any) => ({ isLogin }));
+
   const router = useHistory();
   const [token, setToken] = React.useState('');
-  React.useEffect(() => {
-    console.log('??');
-    dispatch({ type: 'LOGIN' });
-    Axios.post(`http://localhost:4000/dev`).then((res)=>{
-      console.log(res);
-    })
-    //router.push('/');
-  }, []);
+  const [id, setId] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  // React.useEffect(() => {
+  //   console.log('??');
+  //   dispatch({ type: 'LOGIN', payload: {
+  //     id,
+  //     password
+  //   } });
+  //   // Axios.post(`http://localhost:4000/dev`).then((res)=>{
+  //   //   console.log(res);
+  //   // })
+  //   //router.push('/');
+  // }, []);
+  React.useEffect(()=>{
+    isLogin && router.push('/d');
+  },[isLogin]);
 
 
   function handleClick() {
-    console.log('ggg');
-    Axios.get(`http://localhost:4000/dev/hello`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res)=>{
-      console.log(res);
-    })
-    Axios.post(`http://localhost:4000/dev`,{}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res)=>{
-      console.log(res);
-    })
+    console.log(id, password);
+    dispatch({ type: 'LOGIN', payload: {
+      id,
+      password
+    } });
+    // Axios.get(`http://localhost:4000/dev/hello`, {
+    //   withCredentials: true,  
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // }).then((res)=>{
+    //   console.log(res);
+    // });
+    // Axios.post(`http://localhost:4000/dev/login`, {
+    //   id, password
+    // }, {
+    //   withCredentials: true,  
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // }).then((res)=>{
+    //   console.log(res);
+    // })
+    // Axios.post(`http://localhost:4000/dev`,{}, {
+    //   withCredentials: true,
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // }).then((res)=>{
+    //   console.log(res);
+    // })
     // router.push('/d');
   }
   function getToken() {
 
-    Axios.post(`http://localhost:4000/dev/generateToken`, { id: 'RANDOME'}).then((res: any)=>{
+    Axios.post(`http://localhost:4000/dev/generateToken`, { id: 'RANDOME'}, { withCredentials: true }).then((res: any)=>{
       console.log(res.data);
       console.log(res.data.token);
       setToken(res.data.token || '');
@@ -65,10 +91,10 @@ function LoginPage() {
           <Button onClick={getToken}>GGG</Button>
         </div>
         <div className="wrapper">
-          <Input />
+          <Input value={id} onChange={(e)=>setId(e.target.value)} />
         </div>
         <div className="wrapper">
-          <Input />
+          <Input value={password} onChange={(e)=>setPassword(e.target.value)} />
         </div>
         <div className="wrapper" style={{ justifyContent: 'space-between' }}>
           <Tooltip title="You can access restrictly" placement="bottom">

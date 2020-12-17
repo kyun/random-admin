@@ -6,17 +6,25 @@ const initialState = {
 
 export default handleActions(
   {
-    LOGIN: (state, action) => {
+    // LOGIN: (state, action) => {
+    //   return {
+    //     ...state,
+    //     isLogin: true,
+    //   };
+    // },
+    LOGIN_SUCCESS: (state, action) => {
+      console.log('SUCCESS');
       return {
         ...state,
         isLogin: true,
-      };
-    },
-    LOGIN_SUCCESS: (state, action) => {
-      return {
-        ...state,
         status: 'fullfiled',
       };
+    },
+    LOGIN_FAILURE: (state) => {
+      console.log('FAILURE');
+      return {
+        ...state
+      }
     },
     LOGOUT: (state, action) => {
       return {

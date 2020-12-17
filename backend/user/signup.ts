@@ -17,7 +17,7 @@ export const signup = async (event: any) => {
     if(!id || !password || !role){
       throw new Error('not Found');
     }
-    const key = await encrypt(password);
+    const key = crypto.pbkdf2Sync(password, 'SALT', 1109, 64, 'sha512').toString('base64')
     const now = Date.now();
     const [rows] = await connection.execute(`
       INSERT INTO user (user_id, id, password, role, status, created_at, updated_at)

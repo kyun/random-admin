@@ -8,6 +8,7 @@ import MainPage from 'pages/main';
 import DefaultLayout from 'pages/Layout';
 import DashboardPage from 'pages/dashboard';
 import UserPage from 'pages/user';
+import MyPage from 'pages/mypage';
 
 const { Header, Sider } = Layout;
 
@@ -26,6 +27,8 @@ function App() {
         <PrivateRoute path="/d" render={({ match: { url }}: any) => (
           <DefaultLayout>
             <Route path={`${url}/`} exact component={DashboardPage} />
+            <Route path={`${url}/mypage`} exact component={MyPage} />
+
             <Route path={`${url}/a`} exact component={UserPage} />
             <Route path={`${url}/b`} exact component={()=><h1>b</h1>} />
           </DefaultLayout>

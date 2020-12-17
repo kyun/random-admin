@@ -69,3 +69,6 @@ functions:
       - http:
           path: /login
           method: post
+          cors:
+            origin: http://localhost:3000
+            allowCredentials: true

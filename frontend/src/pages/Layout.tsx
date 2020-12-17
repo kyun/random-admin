@@ -11,8 +11,8 @@ import {
   UsergroupAddOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
-import { Avatar, Button } from 'antd';
+import { Link, NavLink } from 'react-router-dom';
+import { Avatar, Button, Menu, Dropdown } from 'antd';
 
 interface Props {
   [key: string]: any;
@@ -77,6 +77,20 @@ const MenuLink = styled(NavLink)`
     
   }
 `
+
+const menu = (
+  <Menu>
+    <Link to="/d/mypage">
+      <Menu.Item>
+        MY
+      </Menu.Item>
+    </Link>
+
+      {/* <NavLink to="/d/mypage">Mypage</NavLink> */}
+
+  </Menu>
+
+);
 function DefaultLayout(props: Props){
 
   return (
@@ -94,9 +108,14 @@ function DefaultLayout(props: Props){
       </Sidebar>
       <Content>
         <Header>
-          <Avatar style={{marginRight: 8}} size={32} icon={<UserOutlined />} />
+          <Dropdown overlay={menu}>
+            <Avatar style={{marginRight: 8}} size={32} icon={<UserOutlined />} />
+          </Dropdown>
           <div style={{marginRight: 24}}>
-            <Nickname>username123</Nickname>
+            
+              <Nickname>username123</Nickname>
+
+            
             <IpAddress>49.171.227.158</IpAddress>
           </div>
           <Button shape="circle" icon={<PoweroffOutlined />} />

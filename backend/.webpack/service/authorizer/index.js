@@ -282,9 +282,7 @@ function authorizer(event, context, callback) {
     return __generator(this, function (_a) {
       try {
         access_token = event.authorizationToken.replace("Bearer ", "");
-        console.log("GET_ACCESSTOKEN", access_token);
         methodArn = event.methodArn;
-        console.log(!access_token || !methodArn);
 
         if (!access_token || !methodArn) {
           return [2
@@ -300,11 +298,7 @@ function authorizer(event, context, callback) {
           }];
         }
 
-        console.log('secret'); // const secret = Buffer.from("SECRET", "base64");
-
-        console.log('decode');
         decoded = jsonwebtoken_1.default.verify(access_token, "SECRET");
-        console.log(decoded);
 
         if (decoded && decoded.id) {
           return [2
