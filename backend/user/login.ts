@@ -1,39 +1,8 @@
-import mysql, { FieldPacket } from 'mysql2/promise';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
+import mysql  from 'mysql2/promise';
+import { encryptPassword } from './password';
+import { generateToken } from 'authorizer/generateToken';
 
-const SALT = 'SALT';
-const ITERATIONS = 1109;
-const SECRET = "SECRET";
 
-async function generateToken(id: string): Promise<{ access_token: string, refresh_token: string }> {
-  async function signToken(user: any, subject="access_token", expiresIn=60*60){
-    return jwt.sign({
-      ...user,
-    }, SECRET, {
-      expiresIn,
-      issuer: 'random',
-      subject
-    });
-  }
-  try {
-    const access_token = await signToken({id, role: "MASTER"});
-    const refresh_token = await signToken({id}, "refresh_token", 60 * 60 * 24);
-    return {
-      access_token,
-      refresh_token
-    }
-  } catch (e) {
-    return {
-      access_token: "",
-      refresh_token: ""
-    }
-  }
-};
-
-function encrypt(password: string): string {
-  return crypto.pbkdf2Sync(password, SALT, ITERATIONS, 64, 'sha512').toString('base64');
-}
 export const login = async (event: any) => {
   const connection = await mysql.createConnection({
     host     : 'localhost',
@@ -47,15 +16,17 @@ export const login = async (event: any) => {
       throw new Error('no')
     }
 
-    const encrypted = encrypt(password);
+    const encrypted = encryptPassword(password);
     const now = Date.now();
     console.log(now);
-    const { access_token, refresh_token } = await generateToken("gg");
-    console.log(access_token);
+
     const [rows]: any = await connection.query(`
       SELECT * FROM user
       WHERE id = '${id}' AND password = '${encrypted}'
     `);
+
+    const { access_token, refresh_token } = await generateToken(rows[0]);
+    console.log(access_token);
     console.log( rows);
     if(rows.length === 0){
       return {

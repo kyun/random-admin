@@ -4,8 +4,8 @@ function* gen(p:any) {
   try{
     console.log('LOGIN SAGA');
     const res = yield call(loginAPI, p.payload);
-    console.log(res);
-    yield put({ type: 'LOGIN_SUCCESS' });
+    console.log(res.data);
+    yield put({ type: 'LOGIN_SUCCESS', payload: { ...res.data } });
   }catch (e){
     console.log(e);
     yield put({ type: 'LOGIN_FAILURE'});

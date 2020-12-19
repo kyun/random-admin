@@ -9,6 +9,8 @@ import DefaultLayout from 'pages/Layout';
 import DashboardPage from 'pages/dashboard';
 import UserPage from 'pages/user';
 import MyPage from 'pages/mypage';
+import DynamicRoutes from 'DynamicRoutes';
+import UserAddPage from 'pages/user/add';
 
 const { Header, Sider } = Layout;
 
@@ -21,6 +23,9 @@ function Home() {
 }
 function App() {
   return (
+    // <div>
+    //   <DynamicRoutes />
+    // </div>
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={()=>(<Redirect to="/login" />)} />
@@ -31,6 +36,9 @@ function App() {
 
             <Route path={`${url}/a`} exact component={UserPage} />
             <Route path={`${url}/b`} exact component={()=><h1>b</h1>} />
+            <Route path={`${url}/user`} exact component={UserPage} />
+            <Route path={`${url}/user/add`} exact component={UserAddPage} />
+
           </DefaultLayout>
         )}/>
         <Route path="/login" exact component={LoginPage} />

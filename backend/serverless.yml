@@ -13,8 +13,12 @@ plugins:
 
 custom:
   bundle:
+    sourcemaps: false
+    tsConfig: './tsconfig.json'
     caching: false
     linting: false
+    # aliases:
+    #   - ".": ./
     
   serverless-offline:
     httpPort: 4000
@@ -71,4 +75,34 @@ functions:
           method: post
           cors:
             origin: http://localhost:3000
+            allowCredentials: true
+
+  # will be deprecated...
+  addUser:
+    handler: user/addUser.addUser
+    events:
+      - http:
+          path: /addUser
+          method: post
+          cors:
+            origin: http://localhost:3000
+            allowCredentials: true
+  # needs rename
+  add:
+    handler: user/addUser.addUser
+    events:
+      - http:
+          path: /add
+          method: put
+          cors:
+            origin: http://localhost:3000
+            allowCredentials: true
+  getUserList:
+    handler: user/getUserList.getUserList
+    events:
+      - http:
+          path: /users
+          method: get
+          cors:
+            origin: http://lcoalhost:3000
             allowCredentials: true

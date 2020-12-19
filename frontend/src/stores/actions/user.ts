@@ -16,6 +16,7 @@ export default handleActions(
       console.log('SUCCESS');
       return {
         ...state,
+        ...action.payload,
         isLogin: true,
         status: 'fullfiled',
       };

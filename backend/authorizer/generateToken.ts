@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
+import { User } from '../types/db';
+const secret = "SECRET";
 
-export async function generateToken(id: string){
-  const secret = "SECRET";
-  async function signToken(user: any, subject="access_token", expiresIn=60*60*24) { 
+export async function generateToken(user: User){
+  async function signToken(user: User, subject="access_token", expiresIn=60*60*24) { 
+    const { id, role, org_id } = user;
     return jwt.sign({
-      id: user.id,
+      id, role, org_id
     },
     secret,
     {
@@ -14,35 +16,18 @@ export async function generateToken(id: string){
     });
   }
   try {
-    const token = await signToken({ id });
-    const refresh_token = await signToken({ id }, "refresh_token", 60 * 60 * 24 * 7);
-    const decoded = jwt.verify(token, secret);
+    const access_token = await signToken(user);
+    const refresh_token = await signToken(user, "refresh_token", 60 * 60 * 24 * 7);
+    const decoded = jwt.verify(access_token, secret);
     return {
-      message: 'success',
-        token,
-        refresh_token,
-        decoded,
-    }
-    return {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials" : true, // Required for cookies, authorization headers with HTTPS
-        "Set-Cookie" : `refresh_token=${refresh_token};Max-Age=${60 * 60 * 24 * 7};path=/;`
-      },
-      body: JSON.stringify({
-        message: 'success',
-        token,
-        refresh_token,
-        decoded,
-      })
+      access_token,
+      refresh_token,
+      decoded,
     }
   } catch (e){
     return {
-      statusCode: 500,
-      body: JSON.stringify({
-        body: 'ggg'
-      })
+      access_token: null,
+      refresh_token: null,
     }
   }
 }

@@ -99,10 +99,10 @@ function DefaultLayout(props: Props){
         <MenuLink exact to="/d" activeClassName="--active">
           <AppstoreOutlined />        
         </MenuLink>
-        <MenuLink exact to="/d/a" activeClassName="--active">
+        <MenuLink exact to="/d/user/add" activeClassName="--active">
           <UsergroupAddOutlined /> 
         </MenuLink>
-        <MenuLink exact to="/d/b" activeClassName="--active">
+        <MenuLink exact to="/d/user" activeClassName="--active">
           <SettingOutlined />
         </MenuLink>
       </Sidebar>

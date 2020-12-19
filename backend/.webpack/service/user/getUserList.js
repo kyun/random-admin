@@ -81,20 +81,62 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "../../../user/signup.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../../../user/getUserList.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../user/signup.ts":
-/*!****************************************************************************!*\
-  !*** /Users/kyun/workspace/playground/random-admin/backend/user/signup.ts ***!
-  \****************************************************************************/
+/***/ "../../../types/db.ts":
+/*!*************************************************************************!*\
+  !*** /Users/kyun/workspace/playground/random-admin/backend/types/db.ts ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TEST = exports.Role = void 0;
+exports.Role = {
+  OWNER: 5,
+  ORGANIZER: 4,
+  MASTER: 3,
+  MANAGER: 2,
+  USER: 1,
+  GUEST: 0
+};
+exports.TEST = 'TEST';
+;
+;
+
+/***/ }),
+
+/***/ "../../../user/getUserList.ts":
+/*!*********************************************************************************!*\
+  !*** /Users/kyun/workspace/playground/random-admin/backend/user/getUserList.ts ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -246,18 +288,15 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.signup = void 0;
-
-var crypto_1 = __importDefault(__webpack_require__(/*! crypto */ "crypto"));
+exports.getUserList = void 0;
 
 var promise_1 = __importDefault(__webpack_require__(/*! mysql2/promise */ "../../mysql2/promise.js"));
 
-var SALT = 'SALT';
-var ITERATIONS = 1109;
+var db_1 = __webpack_require__(/*! types/db */ "../../../types/db.ts");
 
-var signup = function (event) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var connection, _a, id, password, role, key, now, rows, error_1;
+function getUserList(event) {
+  return __awaiter(this, void 0, void 0, function () {
+    var connection, _a, executerRole, org_id, default_role, rows, e_1;
 
     return __generator(this, function (_b) {
       switch (_b.label) {
@@ -276,27 +315,30 @@ var signup = function (event) {
           _b.label = 2;
 
         case 2:
-          _b.trys.push([2, 4,, 5]);
+          _b.trys.push([2, 5,, 6]);
 
-          _a = JSON.parse(event.body), id = _a.id, password = _a.password, role = _a.role;
-
-          if (!id || !password || !role) {
-            throw new Error('not Found');
-          }
-
-          key = crypto_1.default.pbkdf2Sync(password, 'SALT', 1109, 64, 'sha512').toString('base64');
-          now = Date.now();
+          _a = event.requestContext.authorizer.claims, executerRole = _a.role, org_id = _a.org_id;
+          console.log(org_id);
           return [4
           /*yield*/
-          , connection.execute("\n      INSERT INTO user (user_id, id, password, role, status, created_at, updated_at)\n      VALUES ('" + id.toString('base64') + "', '" + id + "', '" + key + "', '" + role + "', 'ACTIVE', '" + now + "', '" + now + "')\n    ").catch(function (e) {
-            if (e.code === 'ER_DUP_ENTRY') {
-              console.log('id 중복...');
-            }
-
-            throw e;
-          })];
+          , connection.query("\n      SELECT * FROM authorization\n      WHERE endpoint = '" + 'GET;/users' + "' \n    ")];
 
         case 3:
+          default_role = _b.sent()[0][0].default_role;
+
+          if (default_role && db_1.Role[executerRole] < db_1.Role[default_role]) {
+            throw {
+              code: 10001,
+              message: "excutes failed...",
+              reason: "You have not permission..."
+            };
+          }
+
+          return [4
+          /*yield*/
+          , connection.query("\n      SELECT * FROM user\n      WHERE org_id = '" + org_id + "'\n    ")];
+
+        case 4:
           rows = _b.sent()[0];
           console.log(rows);
           return [2
@@ -304,33 +346,32 @@ var signup = function (event) {
           , {
             statusCode: 200,
             body: JSON.stringify({
-              id: id,
-              password: password,
-              key: key
-            })
-          }];
-
-        case 4:
-          error_1 = _b.sent();
-          return [2
-          /*return*/
-          , {
-            statusCode: 400,
-            body: JSON.stringify({
-              message: 'missing...'
+              rows: rows,
+              message: 'SUCCE'
             })
           }];
 
         case 5:
+          e_1 = _b.sent();
+          return [2
+          /*return*/
+          , {
+            statusCode: 400,
+            body: JSON.stringify(__assign(__assign({}, e_1), {
+              messagess: 'ERROR'
+            }))
+          }];
+
+        case 6:
           return [2
           /*return*/
           ];
       }
     });
   });
-};
+}
 
-exports.signup = signup;
+exports.getUserList = getUserList;
 
 /***/ }),
 

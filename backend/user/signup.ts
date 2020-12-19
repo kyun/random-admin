@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import mysql from 'mysql2/promise';
 import {createConnection, QueryError, RowDataPacket} from 'mysql2';
-import { encrypt } from './password';
+import { encryptPassword } from './password';
 
 const SALT = 'SALT';
 const ITERATIONS = 1109;
