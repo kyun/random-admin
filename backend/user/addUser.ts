@@ -2,6 +2,7 @@ import mysql, { QueryError, RowDataPacket } from 'mysql2/promise';
 import crypto from 'crypto';
 import { RoleType, Role, Authorization } from './../types/db';
 import { encryptPassword } from './password';
+import { authorizeManager } from 'authorizer/authorizationChecker';
 // PUT;/user
 export async function addUser(event: any) {
   const connection = await mysql.createConnection({
@@ -12,21 +13,10 @@ export async function addUser(event: any) {
   });
   try {
     // console.log(event.requestContext.authorizer.claims);
-    const { role: executerRole, org_id } = (event.requestContext.authorizer.claims);
+    const { org_id } = (event.requestContext.authorizer.claims);
     const { id, password, role, } = JSON.parse(event.body);
 
-    const [[{ default_role }]] = await connection.query<Array<Authorization>>(`
-      SELECT * FROM authorization
-      WHERE endpoint = '${'PUT;/user'}' 
-    `);
-    // console.log(rows2);
-    if(default_role && Role[executerRole as RoleType] < Role[default_role]){
-      throw {
-        code: 10001,
-        message: `excutes failed...`,
-        reason: `You have not permission...`
-      }
-    }
+    await authorizeManager('PUT;/user', event, connection);
     const now = Date.now();
     const encrypted = encryptPassword(password);
     // console.log(id, password, role);
@@ -45,7 +35,8 @@ export async function addUser(event: any) {
       })
     }
   } catch (e) {
-    console.log(e);
+    console.log('OCCUR ERROR!!');
+    // console.log(e);
     return {
       statusCode: 400,
       body: JSON.stringify({

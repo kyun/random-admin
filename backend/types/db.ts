@@ -33,6 +33,7 @@ export interface User {
   description?: string;
   created_at: number;
   updated_at: number;
+  exp: number;
 };
 
 export interface Authorization {

@@ -10,6 +10,7 @@
     "serverless-offline": "^6.8.0"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.66",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mysql2": "github:types/mysql2"
   },

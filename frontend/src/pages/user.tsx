@@ -101,7 +101,7 @@ interface Props {
 function UserPage(props: Props){
   const { access_token } = useSelector(({ user: { access_token } }: any) => ({ access_token }));
   React.useEffect(()=>{
-    const res = Axios.get(`http://localhost:4000/dev/users`, {
+    const res = Axios.get(`http://localhost:4000/dev/users?page=1`, {
       withCredentials: true,  
       headers: {
         Authorization: `Bearer ${access_token}`
