@@ -1,36 +1,27 @@
 import { createAction, handleActions } from 'redux-actions';
 
+export interface UserList{
+  
+}
 const initialState = {
   isLogin: false,
 };
 
 export default handleActions(
   {
-    // LOGIN: (state, action) => {
-    //   return {
-    //     ...state,
-    //     isLogin: true,
-    //   };
-    // },
-    LOGIN_SUCCESS: (state, action) => {
-      console.log('SUCCESS');
+    GET_USER_LIST_SUCCESS: (state, { payload }: any) => {
       return {
         ...state,
-        ...action.payload,
-        isLogin: true,
-        status: 'fullfiled',
-      };
+      }
     },
-    LOGIN_FAILURE: (state) => {
-      console.log('FAILURE');
+    GET_USER_LIST_FAILURE: (state) => {
       return {
-        ...state
+        ...state,
       }
     },
     LOGOUT: (state, action) => {
       return {
         ...state,
-        isLogin: false,
       }
     }
   },

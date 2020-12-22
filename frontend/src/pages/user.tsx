@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Table, Tag, Breadcrumb,Space, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const columns = [
   {
@@ -99,15 +99,10 @@ interface Props {
   [key: string]: any;
 }
 function UserPage(props: Props){
+  const dispatch = useDispatch();
   const { access_token } = useSelector(({ user: { access_token } }: any) => ({ access_token }));
   React.useEffect(()=>{
-    const res = Axios.get(`http://localhost:4000/dev/users?page=1`, {
-      withCredentials: true,  
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    });
-    console.log(res);
+    dispatch({type: 'GET_USER_LIST'});
   },[]);
   return (
     <Layout>

@@ -18,23 +18,15 @@ import Axios from 'axios';
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const { isLogin } = useSelector(({ user: { isLogin } }: any) => ({ isLogin }));
+  const { isLogin } = useSelector(({ 
+    auth: { access_token, asyncState } 
+  }: any) => ({ isLogin: access_token && asyncState === 'FULFILLED' }));
 
   const router = useHistory();
   const [token, setToken] = React.useState('');
   const [id, setId] = React.useState('');
   const [password, setPassword] = React.useState('');
-  // React.useEffect(() => {
-  //   console.log('??');
-  //   dispatch({ type: 'LOGIN', payload: {
-  //     id,
-  //     password
-  //   } });
-  //   // Axios.post(`http://localhost:4000/dev`).then((res)=>{
-  //   //   console.log(res);
-  //   // })
-  //   //router.push('/');
-  // }, []);
+
   React.useEffect(()=>{
     isLogin && router.push('/d');
   },[isLogin]);
@@ -47,32 +39,7 @@ function LoginPage() {
       password
     } });
     // Axios.get(`http://localhost:4000/dev/hello`, {
-    //   withCredentials: true,  
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // }).then((res)=>{
-    //   console.log(res);
-    // });
-    // Axios.post(`http://localhost:4000/dev/login`, {
-    //   id, password
-    // }, {
-    //   withCredentials: true,  
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // }).then((res)=>{
-    //   console.log(res);
-    // })
-    // Axios.post(`http://localhost:4000/dev`,{}, {
-    //   withCredentials: true,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // }).then((res)=>{
-    //   console.log(res);
-    // })
-    // router.push('/d');
+
   }
   function getToken() {
 

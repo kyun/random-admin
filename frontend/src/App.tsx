@@ -11,6 +11,7 @@ import UserPage from 'pages/user';
 import MyPage from 'pages/mypage';
 import DynamicRoutes from 'DynamicRoutes';
 import UserAddPage from 'pages/user/add';
+import Axios from 'axios';
 
 const { Header, Sider } = Layout;
 
@@ -21,7 +22,15 @@ function Home() {
     </main>
   );
 }
-function App() {
+function setAxiosDefault() {
+  Axios.defaults.baseURL = `http:localhost:4000/dev`;
+  Axios.defaults.withCredentials = true;
+
+}
+function App() {  
+  React.useEffect(()=>{
+    setAxiosDefault();
+  },[]);
   return (
     // <div>
     //   <DynamicRoutes />
@@ -49,7 +58,9 @@ function App() {
 }
 
 function PrivateRoute({ component: Component, render, ...rest}: any) {
-  const { isLogin } = useSelector(({ user: { isLogin } }: any) => ({ isLogin }));
+  const { isLogin } = useSelector(({ 
+    auth: { access_token, asyncState } 
+  }: any) => ({ isLogin: access_token && asyncState === 'FULFILLED' }));
   if(!isLogin){
     return <Redirect to="/login" />
   }
