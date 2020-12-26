@@ -1,6 +1,7 @@
 import mysql  from 'mysql2/promise';
 import { encryptPassword } from './password';
 import { generateToken } from 'authorizer/generateToken';
+import { User } from 'types/db';
 
 
 export const login = async (event: any) => {
@@ -20,14 +21,14 @@ export const login = async (event: any) => {
     const now = Date.now();
     console.log(now);
 
-    const [rows]: any = await connection.query(`
+    const [rows] = await connection.query<Array<User>>(`
       SELECT * FROM user
       WHERE id = '${id}' AND password = '${encrypted}'
     `);
 
     const { access_token, refresh_token } = await generateToken(rows[0]);
     console.log(access_token);
-    console.log( rows);
+    console.log(rows);
     if(rows.length === 0){
       return {
         statusCode: 403,

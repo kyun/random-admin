@@ -18,7 +18,7 @@ function* _login({payload}: any){
         return data;
       })
     }, payload);
-    yield put({ type: 'LOGIN_SUCCESS', payload: { ...res } });
+    yield put({ type: 'LOGIN_SUCCESS', payload: { ...res.rows[0] } });
   }catch(e){
     yield put({ type: 'LOGIN_FAILURE' });
   }

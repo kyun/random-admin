@@ -13,6 +13,7 @@ import {
 } from '@ant-design/icons';
 import { Link, NavLink } from 'react-router-dom';
 import { Avatar, Button, Menu, Dropdown } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Props {
   [key: string]: any;
@@ -21,7 +22,7 @@ interface Props {
 const Layout = styled.div`
   display: flex;
   height: 100vh;
-  background: rgba(250,251,254,1);
+  background: rgba(250, 251, 254, 1);
 `;
 const Header = styled.header`
   display: flex;
@@ -66,66 +67,63 @@ const MenuLink = styled(NavLink)`
   border-left: 3px solid transparent;
   color: #222;
   background: #fff;
-  &.--active{
+  &.--active {
     color: #ff4d4f;
     border-left: 3px solid #ff4d4f;
     background: #fdfdfd;
   }
   border-right: 3px solid transparent;
   font-size: 24px;
-  &:hover{
-    
+  &:hover {
   }
-`
+`;
 
 const menu = (
   <Menu>
     <Link to="/d/mypage">
-      <Menu.Item>
-        MY
-      </Menu.Item>
+      <Menu.Item>MY</Menu.Item>
     </Link>
 
-      {/* <NavLink to="/d/mypage">Mypage</NavLink> */}
-
+    {/* <NavLink to="/d/mypage">Mypage</NavLink> */}
   </Menu>
-
 );
-function DefaultLayout(props: Props){
-
+function DefaultLayout(props: Props) {
+  const dispatch = useDispatch();
+  const { user_id } = useSelector(({ auth: { user_id } }: any) => ({ user_id }));
+  function logout() {
+    console.log('logout');
+    dispatch({ type: 'LOGOUT' });
+    // dispatch({ type: 'RESET_STATE' });
+  }
   return (
     <Layout>
       <Sidebar>
-        <MenuLink exact to="/d" activeClassName="--active">
-          <AppstoreOutlined />        
+        <MenuLink exact to="/" activeClassName="--active">
+          <AppstoreOutlined />
         </MenuLink>
-        <MenuLink exact to="/d/user/add" activeClassName="--active">
-          <UsergroupAddOutlined /> 
+        <MenuLink exact to="/users" activeClassName="--active">
+          <UsergroupAddOutlined />
         </MenuLink>
-        <MenuLink exact to="/d/user" activeClassName="--active">
+        <MenuLink exact to="/user/add" activeClassName="--active">
           <SettingOutlined />
         </MenuLink>
       </Sidebar>
       <Content>
         <Header>
           <Dropdown overlay={menu}>
-            <Avatar style={{marginRight: 8}} size={32} icon={<UserOutlined />} />
+            <Avatar style={{ marginRight: 8 }} size={32} icon={<UserOutlined />} />
           </Dropdown>
-          <div style={{marginRight: 24}}>
-            
-              <Nickname>username123</Nickname>
+          <div style={{ marginRight: 24 }}>
+            <Nickname>{user_id}</Nickname>
 
-            
             <IpAddress>49.171.227.158</IpAddress>
           </div>
-          <Button shape="circle" icon={<PoweroffOutlined />} />
+          <Button onClick={logout} shape="circle" icon={<PoweroffOutlined />} />
         </Header>
-        <Main>
-          {props.children}
-        </Main>
+        <Main>{props.children}</Main>
       </Content>
     </Layout>
-  )
-};
+  );
+}
 
 export default DefaultLayout;

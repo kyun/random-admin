@@ -106,3 +106,12 @@ functions:
           cors:
             origin: http://lcoalhost:3000
             allowCredentials: true
+  getUserInfo:
+    handler: user/getUserInfo.getUserInfo
+    events:
+      - http:
+          path: /user
+          method: get
+          cors:
+            origin: http://lcoalhost:3000
+            allowCredentials: true

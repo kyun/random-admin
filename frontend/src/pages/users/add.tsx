@@ -1,5 +1,6 @@
 import { Button, Input } from 'antd';
 import Axios from 'axios';
+import withAuth from 'hocs/withAuth';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -53,4 +54,4 @@ function UserAddPage() {
   )
 };
 
-export default UserAddPage;
+export default withAuth(UserAddPage);

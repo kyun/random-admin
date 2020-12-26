@@ -1,16 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 import './App.css';
-import LoginPage from './pages/login';
 import { Layout } from 'antd';
 import { useSelector } from 'react-redux';
-import MainPage from 'pages/main';
-import DefaultLayout from 'pages/Layout';
-import DashboardPage from 'pages/dashboard';
-import UserPage from 'pages/user';
-import MyPage from 'pages/mypage';
+
 import DynamicRoutes from 'DynamicRoutes';
-import UserAddPage from 'pages/user/add';
 import Axios from 'axios';
 
 const { Header, Sider } = Layout;
@@ -32,28 +26,28 @@ function App() {
     setAxiosDefault();
   },[]);
   return (
-    // <div>
-    //   <DynamicRoutes />
-    // </div>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={()=>(<Redirect to="/login" />)} />
-        <PrivateRoute path="/d" render={({ match: { url }}: any) => (
-          <DefaultLayout>
-            <Route path={`${url}/`} exact component={DashboardPage} />
-            <Route path={`${url}/mypage`} exact component={MyPage} />
+    <div>
+      <DynamicRoutes />
+    </div>
+    // <BrowserRouter>
+    //   <Switch>
+    //     <Route path="/" exact component={()=>(<Redirect to="/login" />)} />
+    //     <PrivateRoute path="/d" render={({ match: { url }}: any) => (
+    //       <DefaultLayout>
+    //         <Route path={`${url}/`} exact component={DashboardPage} />
+    //         <Route path={`${url}/mypage`} exact component={MyPage} />
 
-            <Route path={`${url}/a`} exact component={UserPage} />
-            <Route path={`${url}/b`} exact component={()=><h1>b</h1>} />
-            <Route path={`${url}/user`} exact component={UserPage} />
-            <Route path={`${url}/user/add`} exact component={UserAddPage} />
+    //         <Route path={`${url}/a`} exact component={UserPage} />
+    //         <Route path={`${url}/b`} exact component={()=><h1>b</h1>} />
+    //         <Route path={`${url}/user`} exact component={UserPage} />
+    //         <Route path={`${url}/user/add`} exact component={UserAddPage} />
 
-          </DefaultLayout>
-        )}/>
-        <Route path="/login" exact component={LoginPage} />
+    //       </DefaultLayout>
+    //     )}/>
+    //     <Route path="/login" exact component={LoginPage} />
 
-      </Switch>
-    </BrowserRouter>
+    //   </Switch>
+    // </BrowserRouter>
   );
 }
 

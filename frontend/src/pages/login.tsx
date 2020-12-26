@@ -28,7 +28,7 @@ function LoginPage() {
   const [password, setPassword] = React.useState('');
 
   React.useEffect(()=>{
-    isLogin && router.push('/d');
+    isLogin && router.push('/');
   },[isLogin]);
 
 
@@ -42,11 +42,12 @@ function LoginPage() {
 
   }
   function getToken() {
-
-    Axios.post(`http://localhost:4000/dev/generateToken`, { id: 'RANDOME'}, { withCredentials: true }).then((res: any)=>{
-      console.log(res.data);
-      console.log(res.data.token);
-      setToken(res.data.token || '');
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        id: '123',
+        password: '123',
+      }
     })
   }
 
@@ -55,7 +56,7 @@ function LoginPage() {
       <div className="card">
         <div className="icon-wrapper">
           <h1 style={{ color: blue[0] }}>{RandomIcon()}</h1>
-          <Button onClick={getToken}>GGG</Button>
+          <Button onClick={getToken}>POWER LOGIN</Button>
         </div>
         <div className="wrapper">
           <Input value={id} onChange={(e)=>setId(e.target.value)} />

@@ -22,6 +22,8 @@ export interface Organization {
 }
 // type Role = 'MASTER' | 'MANAGER' | 'GUEST';
 export interface User {
+  constructor: any;
+
   user_id: string;
   id: string;
   password: string;
