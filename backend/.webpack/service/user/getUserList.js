@@ -511,7 +511,6 @@ function getUserList(event) {
         case 2:
           _b.trys.push([2, 5,, 6]);
 
-          console.log(event.queryStringParameters);
           org_id = ((_a = event.requestContext.authorizer) === null || _a === void 0 ? void 0 : _a.claims).org_id;
           return [4
           /*yield*/
@@ -525,8 +524,8 @@ function getUserList(event) {
           , connection.query("\n      SELECT * FROM user\n      WHERE org_id = '" + org_id + "'\n    ")];
 
         case 4:
-          rows = _b.sent()[0];
-          console.log(rows);
+          rows = _b.sent()[0]; // console.log(rows);
+
           return [2
           /*return*/
           , {
