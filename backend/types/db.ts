@@ -9,6 +9,20 @@ export const Role = {
 export const TEST = 'TEST'
 export type RoleType = keyof typeof Role;
 
+export interface Quest {
+  id: number;
+  quest_id: string;
+  endpoint: string;
+  name: string;
+  description: string;
+  repeatition: string;
+  point: number;
+  is_active: boolean;
+  is_public: boolean;
+  starts_at: Date;
+  expire_at: Date;
+}
+
 export interface Organization {
   id: string;
   organization_id: string;

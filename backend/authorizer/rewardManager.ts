@@ -9,10 +9,8 @@ export async function rewardManager(endpoint: string, user_id: string, connectio
     `);
     reward_list.forEach( async (reward: any) => {
       const { repeatition, reward_id } = reward;
-      
       const history: any = await historyChecker(user_id, reward_id, connection);
       if(repeatition === 'once'){
-        
         if(history.length === 0){
           await reward_boy(user_id, reward_id, connection);
         }else{
