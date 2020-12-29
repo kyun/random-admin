@@ -115,3 +115,12 @@ functions:
           cors:
             origin: http://lcoalhost:3000
             allowCredentials: true
+  addBanner:
+    handler: banner/addBanner.addBanner
+    events:
+      - http:
+          path: /addBanner
+          method: put
+          cors:
+            origin: http://localhost:3000
+            allowCredentials: true

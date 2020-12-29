@@ -104,7 +104,7 @@ function DefaultLayout(props: Props) {
         <MenuLink exact to="/users" activeClassName="--active">
           <UsergroupAddOutlined />
         </MenuLink>
-        <MenuLink exact to="/user/add" activeClassName="--active">
+        <MenuLink exact to="/banner/add" activeClassName="--active">
           <SettingOutlined />
         </MenuLink>
       </Sidebar>

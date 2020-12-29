@@ -79,3 +79,19 @@ export interface UserAPIHistory {
   created_at: number;
   action: string; // 'ADD_
 }
+
+
+
+export interface Banner {
+  idx: number;
+  banner_id: string;
+  title: string;
+  banner_img: string;
+
+  publisher: string;
+
+  created_at: Date;
+  updated_at: Date;
+  starts_at: Date;
+  expire_at: Date;
+}
