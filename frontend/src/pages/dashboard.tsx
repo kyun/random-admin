@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Timeline, Tag, Divider } from 'antd';
 import withAuth from 'hocs/withAuth';
+import { Link } from 'react-router-dom';
 
 const Layout = styled.div`
   display: flex;
@@ -134,6 +135,9 @@ function DashboardPage() {
             <span style={{color: '#999', fontSize: '12px', fontWeight: 'normal'}}>2020.12.07</span>
           </Divider>
         </Timeline>
+      </TimelineWrapper>
+      <TimelineWrapper >
+        <Link to="/banner">Banner</Link>
       </TimelineWrapper>
     </Layout>
   );

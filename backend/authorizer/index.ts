@@ -43,8 +43,9 @@ export async function authorizer(event: any, context: any, callback: any){
     }
     // const secret = Buffer.from("SECRET", "base64");
     const decoded: any = jwt.verify(access_token, "SECRET");
+    console.log(decoded);
     if (decoded && decoded.id) {
-      return callback({text:'anyText123'}, generateAuthResponse(decoded.id, "Allow", methodArn));
+      return callback(null, generateAuthResponse(decoded.id, "Allow", methodArn));
     } else {
       return callback(null, generateAuthResponse(decoded.id, "Deny", methodArn));
     }

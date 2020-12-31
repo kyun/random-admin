@@ -297,13 +297,12 @@ function authorizer(event, context, callback) {
         }
 
         decoded = jsonwebtoken_1.default.verify(access_token, "SECRET");
+        console.log(decoded);
 
         if (decoded && decoded.id) {
           return [2
           /*return*/
-          , callback({
-            text: 'anyText123'
-          }, generateAuthResponse(decoded.id, "Allow", methodArn))];
+          , callback(null, generateAuthResponse(decoded.id, "Allow", methodArn))];
         } else {
           return [2
           /*return*/

@@ -81,15 +81,208 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "../../../banner/addBanner.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../../../banner/getBanners.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../banner/addBanner.ts":
-/*!*********************************************************************************!*\
-  !*** /Users/kyun/workspace/playground/random-admin/backend/banner/addBanner.ts ***!
-  \*********************************************************************************/
+/***/ "../../../authorizer/authorizationChecker.ts":
+/*!************************************************************************************************!*\
+  !*** /Users/kyun/workspace/playground/random-admin/backend/authorizer/authorizationChecker.ts ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function () {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) try {
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
+
+      switch (op[0]) {
+        case 0:
+        case 1:
+          t = op;
+          break;
+
+        case 4:
+          _.label++;
+          return {
+            value: op[1],
+            done: false
+          };
+
+        case 5:
+          _.label++;
+          y = op[1];
+          op = [0];
+          continue;
+
+        case 7:
+          op = _.ops.pop();
+
+          _.trys.pop();
+
+          continue;
+
+        default:
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+            _ = 0;
+            continue;
+          }
+
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+            _.label = op[1];
+            break;
+          }
+
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
+            t = op;
+            break;
+          }
+
+          if (t && _.label < t[2]) {
+            _.label = t[2];
+
+            _.ops.push(op);
+
+            break;
+          }
+
+          if (t[2]) _.ops.pop();
+
+          _.trys.pop();
+
+          continue;
+      }
+
+      op = body.call(thisArg, _);
+    } catch (e) {
+      op = [6, e];
+      y = 0;
+    } finally {
+      f = t = 0;
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.authorizeManager = void 0;
+
+var db_1 = __webpack_require__(/*! types/db */ "../../../types/db.ts");
+
+function authorizeManager(endpoint, event, connection) {
+  return __awaiter(this, void 0, void 0, function () {
+    var _a, executerRole, org_id, default_role;
+
+    return __generator(this, function (_b) {
+      switch (_b.label) {
+        case 0:
+          _a = event.requestContext.authorizer.claims, executerRole = _a.role, org_id = _a.org_id;
+          return [4
+          /*yield*/
+          , connection.query("\n      SELECT * FROM authorization\n      WHERE endpoint = '" + endpoint + "' \n    ")];
+
+        case 1:
+          default_role = _b.sent()[0][0].default_role;
+
+          if (default_role && db_1.Role[executerRole] < db_1.Role[default_role]) {
+            throw {
+              code: 10001,
+              message: "excutes failed...",
+              reason: "Your role = " + executerRole + "; Allow role = " + default_role
+            };
+          }
+
+          return [2
+          /*return*/
+          , true];
+      }
+    });
+  });
+}
+
+exports.authorizeManager = authorizeManager;
+
+/***/ }),
+
+/***/ "../../../banner/getBanners.ts":
+/*!**********************************************************************************!*\
+  !*** /Users/kyun/workspace/playground/random-admin/backend/banner/getBanners.ts ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -260,31 +453,19 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addBanner = void 0;
+exports.getBanners = void 0;
+
+var authorizationChecker_1 = __webpack_require__(/*! authorizer/authorizationChecker */ "../../../authorizer/authorizationChecker.ts");
 
 var promise_1 = __importDefault(__webpack_require__(/*! mysql2/promise */ "../../mysql2/promise.js"));
 
-var datetime_1 = __webpack_require__(/*! utils/datetime */ "../../../utils/datetime.ts"); // PUT;/banner
+function getBanners(event) {
+  var _a, _b;
 
-
-function addBanner(event) {
   return __awaiter(this, void 0, void 0, function () {
-    function makeid(length) {
-      var result = '';
-      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-
-      for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-
-      return result;
-    }
-
-    var connection, id, _a, title, img_src, now, rows, e_1;
-
-    return __generator(this, function (_b) {
-      switch (_b.label) {
+    var connection, rows, e_1;
+    return __generator(this, function (_c) {
+      switch (_c.label) {
         case 0:
           return [4
           /*yield*/
@@ -297,44 +478,55 @@ function addBanner(event) {
           })];
 
         case 1:
-          connection = _b.sent();
-          _b.label = 2;
+          connection = _c.sent();
+          _c.label = 2;
 
         case 2:
-          _b.trys.push([2, 4,, 5]);
+          _c.trys.push([2, 5,, 6]); // const { org_id } = event.requestContext.authorizer?.claims;
 
-          id = event.requestContext.authorizer.claims.id;
-          _a = JSON.parse(event.body), title = _a.title, img_src = _a.img_src;
-          now = datetime_1.dateTime(new Date());
+
           return [4
           /*yield*/
-          , connection.execute("\n      INSERT INTO banner(banner_id, title, banner_img, publisher, created_at, updated_at, starts_at, expire_at)\n      VALUES ('" + makeid(4) + "', '" + title + "', '" + img_src + "', '" + id + "', '" + now + "', NOW(), NOW(), NOW())\n    ").catch(function (e) {
-            throw e;
-          })];
+          , authorizationChecker_1.authorizeManager('GET;/banners', event, connection)];
 
         case 3:
-          rows = _b.sent()[0];
+          // const { org_id } = event.requestContext.authorizer?.claims;
+          _c.sent();
+
+          console.log(new Date());
+          console.log(new Date().toISOString());
+          return [4
+          /*yield*/
+          , connection.query("\n      SELECT * FROM banner\n    ")];
+
+        case 4:
+          rows = _c.sent()[0];
+          console.log((_a = rows === null || rows === void 0 ? void 0 : rows[0]) === null || _a === void 0 ? void 0 : _a.created_at.toISOString());
+          console.log((_b = rows === null || rows === void 0 ? void 0 : rows[0]) === null || _b === void 0 ? void 0 : _b.created_at.toLocaleString('ko-KR', {
+            timeZone: "Asia/Seoul"
+          }));
           return [2
           /*return*/
           , {
             statusCode: 200,
             body: JSON.stringify({
-              message: 'SSCUCCESS'
+              rows: rows,
+              message: 'SCC'
             })
           }];
 
-        case 4:
-          e_1 = _b.sent();
+        case 5:
+          e_1 = _c.sent();
           return [2
           /*return*/
           , {
             statusCode: 400,
             body: JSON.stringify(__assign(__assign({}, e_1), {
-              message: 'FAILURE'
+              messagess: 'ERROR'
             }))
           }];
 
-        case 5:
+        case 6:
           return [2
           /*return*/
           ];
@@ -343,14 +535,14 @@ function addBanner(event) {
   });
 }
 
-exports.addBanner = addBanner;
+exports.getBanners = getBanners;
 
 /***/ }),
 
-/***/ "../../../utils/datetime.ts":
-/*!*******************************************************************************!*\
-  !*** /Users/kyun/workspace/playground/random-admin/backend/utils/datetime.ts ***!
-  \*******************************************************************************/
+/***/ "../../../types/db.ts":
+/*!*************************************************************************!*\
+  !*** /Users/kyun/workspace/playground/random-admin/backend/types/db.ts ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -360,13 +552,18 @@ exports.addBanner = addBanner;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dateTime = void 0;
-
-function dateTime(date) {
-  return date.toISOString().slice(0, 19).replace('T', ' ');
-}
-
-exports.dateTime = dateTime;
+exports.TEST = exports.Role = void 0;
+exports.Role = {
+  OWNER: 5,
+  ORGANIZER: 4,
+  MASTER: 3,
+  MANAGER: 2,
+  USER: 1,
+  GUEST: 0
+};
+exports.TEST = 'TEST';
+;
+;
 
 /***/ }),
 

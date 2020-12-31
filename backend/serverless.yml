@@ -124,3 +124,21 @@ functions:
           cors:
             origin: http://localhost:3000
             allowCredentials: true
+  getBanner:
+    handler: banner/getBanner.getBanner
+    events:
+      - http:
+          path: /getBanner
+          method: get
+          cors:
+            origin: http://localhost:3000
+  getBanners:
+    handler: banner/getBanners.getBanners
+    events:
+      - http:
+          path: /banners
+          method: get
+          authorizer: auth
+          cors:
+            origin: http://localhost:3000
+            allowCredentials: true

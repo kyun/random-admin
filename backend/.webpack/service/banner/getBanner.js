@@ -81,14 +81,14 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "../../../banner/addBanner.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../../../banner/getBanner.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../banner/addBanner.ts":
+/***/ "../../../banner/getBanner.ts":
 /*!*********************************************************************************!*\
-  !*** /Users/kyun/workspace/playground/random-admin/backend/banner/addBanner.ts ***!
+  !*** /Users/kyun/workspace/playground/random-admin/backend/banner/getBanner.ts ***!
   \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -260,31 +260,15 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addBanner = void 0;
+exports.getBanner = void 0;
 
 var promise_1 = __importDefault(__webpack_require__(/*! mysql2/promise */ "../../mysql2/promise.js"));
 
-var datetime_1 = __webpack_require__(/*! utils/datetime */ "../../../utils/datetime.ts"); // PUT;/banner
-
-
-function addBanner(event) {
+function getBanner(event) {
   return __awaiter(this, void 0, void 0, function () {
-    function makeid(length) {
-      var result = '';
-      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-
-      for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-
-      return result;
-    }
-
-    var connection, id, _a, title, img_src, now, rows, e_1;
-
-    return __generator(this, function (_b) {
-      switch (_b.label) {
+    var connection, banner_id, rows, e_1;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
         case 0:
           return [4
           /*yield*/
@@ -292,45 +276,42 @@ function addBanner(event) {
             host: 'localhost',
             user: 'root',
             password: 'password',
-            database: 'random-admin',
-            timezone: 'UTC'
+            database: 'random-admin'
           })];
 
         case 1:
-          connection = _b.sent();
-          _b.label = 2;
+          connection = _a.sent();
+          _a.label = 2;
 
         case 2:
-          _b.trys.push([2, 4,, 5]);
+          _a.trys.push([2, 4,, 5]);
 
-          id = event.requestContext.authorizer.claims.id;
-          _a = JSON.parse(event.body), title = _a.title, img_src = _a.img_src;
-          now = datetime_1.dateTime(new Date());
+          banner_id = event.queryStringParameters.banner_id;
           return [4
           /*yield*/
-          , connection.execute("\n      INSERT INTO banner(banner_id, title, banner_img, publisher, created_at, updated_at, starts_at, expire_at)\n      VALUES ('" + makeid(4) + "', '" + title + "', '" + img_src + "', '" + id + "', '" + now + "', NOW(), NOW(), NOW())\n    ").catch(function (e) {
-            throw e;
-          })];
+          , connection.query("\n      SELECT * FROM banner\n      WHERE banner_id = '" + banner_id + "'\n    ")];
 
         case 3:
-          rows = _b.sent()[0];
+          rows = _a.sent()[0];
+          console.log(rows);
           return [2
           /*return*/
           , {
             statusCode: 200,
             body: JSON.stringify({
-              message: 'SSCUCCESS'
+              rows: rows,
+              message: 'SCC'
             })
           }];
 
         case 4:
-          e_1 = _b.sent();
+          e_1 = _a.sent();
           return [2
           /*return*/
           , {
             statusCode: 400,
             body: JSON.stringify(__assign(__assign({}, e_1), {
-              message: 'FAILURE'
+              messagess: 'ERROR'
             }))
           }];
 
@@ -343,30 +324,7 @@ function addBanner(event) {
   });
 }
 
-exports.addBanner = addBanner;
-
-/***/ }),
-
-/***/ "../../../utils/datetime.ts":
-/*!*******************************************************************************!*\
-  !*** /Users/kyun/workspace/playground/random-admin/backend/utils/datetime.ts ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.dateTime = void 0;
-
-function dateTime(date) {
-  return date.toISOString().slice(0, 19).replace('T', ' ');
-}
-
-exports.dateTime = dateTime;
+exports.getBanner = getBanner;
 
 /***/ }),
 
