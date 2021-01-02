@@ -1,10 +1,11 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-
+import AWS from 'aws-sdk';
+import fetch from 'node-fetch';
 import mysql, { QueryError, RowDataPacket } from 'mysql2/promise';
 import { dateTime } from 'utils/datetime';
 
 
-
+const s3 = new AWS.S3();
 // PUT;/banner
 export async function addBanner(event: any){
   const connection = await mysql.createConnection({
@@ -29,6 +30,24 @@ export async function addBanner(event: any){
 
     const { title, img_src } = JSON.parse(event.body);
     const now = dateTime(new Date());
+
+    if(img_src){
+      const ext = img_src.split('.').pop();
+      fetch(img_src).then((res: any)=>{
+        if(res.ok) return res;
+        return Promise.reject(new Error(
+          `Failed to fetch ${res.url}: ${res.status} ${res.statusText}`
+        ))
+      })
+      .then((r: any)=> r.buffer())
+      .then((buffer: any) => (
+        s3.putObject({
+          Bucket: `random-admin-images` || process.env.BUCKET as string,
+          Key: `${now}-${new Date().getTime()}.${ext}`,
+          Body: buffer,
+        }).promise()
+      ))
+    }
     //const now = new Date().toLocaleString();
     const [rows] = await connection.execute(`
       INSERT INTO banner(banner_id, title, banner_img, publisher, created_at, updated_at, starts_at, expire_at)

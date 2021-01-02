@@ -4,8 +4,11 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "aws-sdk": "^2.820.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5",
+    "node-fetch": "^2.6.1",
     "serverless-bundle": "^4.1.0",
     "serverless-offline": "^6.8.0"
   },
